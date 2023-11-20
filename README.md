@@ -1,0 +1,2 @@
+# Life is not Daijoubu
+
