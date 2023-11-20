@@ -1,0 +1,92 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Audio;
+
+public class #SCRIPTNAME# : MonoBehaviour
+{
+    [Space]
+    [Header("Sound")]
+    [SerializeField] private AudioMixer mixer;
+
+    [Space]
+    [Header("Slider")]
+    [SerializeField] private Slider masterSlider;
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider sfxSlider;
+
+    [Space]
+    [Header("Resolutions")]
+    [SerializeField] private Dropdown listeResolutionDropdown;
+
+    private Resolution[] resolutions;
+
+    private void Awake()
+    {
+        InitVolume();
+        InitResolution();
+        Screen.fullScreen = true;
+    }
+
+    public void InitVolume()
+    {
+        mixer.GetFloat("MasterVolume", out float masterValueForSlider);
+        masterSlider.value = masterValueForSlider;
+
+        mixer.GetFloat("MusicVolume", out float musicValueForSlider);
+        musicSlider.value = musicValueForSlider;
+
+        mixer.GetFloat("SFXVolume", out float sfxValueForSlider);
+        sfxSlider.value = sfxValueForSlider;
+    }
+
+    public void InitResolution()
+    {
+        resolutions = Screen.resolutions;
+        
+        List<string> options = new List<string>();
+
+        int currentResolutionIndex = 0;
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+            string option = resolutions[i].width + " x " + resolutions[i].height; 
+            if (options.Contains(option) == false)
+            {
+                options.Add(option);
+            }
+            if(resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
+            {
+                currentResolutionIndex = i;
+            }
+        }
+
+        listeResolutionDropdown.AddOptions(options);
+        listeResolutionDropdown.value = currentResolutionIndex;
+        listeResolutionDropdown.RefreshShownValue();
+    }
+
+    public void SetVolumeMaster(float master)
+    {
+        mixer.SetFloat("MasterVolume", master);
+    }
+    public void SetVolumeMusic(float music)
+    {
+        mixer.SetFloat("MusicVolume", music);
+    }
+    public void SetVolumeSFX(float sfx)
+    {
+        mixer.SetFloat("SFXVolume", sfx);
+    }
+
+    public void SetFullScreen(bool isFullScreen)
+    {
+       Screen.fullScreen = isFullScreen;
+    }
+
+    public void SetResolution(int resolutionIndex)
+    {
+        Resolution resolution = resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
+}

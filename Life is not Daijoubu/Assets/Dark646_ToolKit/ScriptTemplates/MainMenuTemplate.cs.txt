@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class #SCRIPTNAME# : MonoBehaviour
+{
+    [Space]
+    [Header("UI")]
+    [SerializeField] private GameObject buttonPanel;
+    [SerializeField] private GameObject settingPanel;
+
+
+    private void Awake()
+    {
+        buttonPanel.SetActive(true);
+        settingPanel.SetActive(false);
+    }
+
+    public void StartGame()
+    {
+        //SceneManager.LoadScene("SceneDeJeu");
+    }
+
+    public void OpenCloseSettings()
+    {
+        buttonPanel.SetActive(!buttonPanel.activeSelf);
+        settingPanel.SetActive(!settingPanel.activeSelf);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+}

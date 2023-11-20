@@ -1,0 +1,66 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class #SCRIPTNAME# : MonoBehaviour
+{
+    public static bool isPaused = false;
+
+    [Space]
+    [Header("UI")]
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject buttonPanel;
+    [SerializeField] private GameObject settingsPanel;
+
+    private void Awake()
+    {
+        pauseMenu.SetActive(false);
+        buttonPanel.SetActive(false);
+        settingsPanel.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape)) 
+        {
+            if(isPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
+        }
+    }
+
+    public void Pause()
+    {
+        pauseMenu.SetActive(true);
+        buttonPanel.SetActive(true);
+        isPaused = true;
+        Time.timeScale = 0;
+    }
+
+    public void Resume()
+    {
+        pauseMenu.SetActive(false);
+        settingsPanel.SetActive(false);
+        isPaused = false;
+        Time.timeScale = 1;
+    }
+
+    public void OpenCloseSettingsMenu()
+    {
+        settingsPanel.SetActive(!settingsPanel.activeSelf);
+        buttonPanel.SetActive(!settingsPanel.activeSelf);
+    }
+
+    public void BackToTitleScreen()
+    {
+        Resume();
+        //SceneManager.LoadScene("TitleScreen");
+    }
+
+}
